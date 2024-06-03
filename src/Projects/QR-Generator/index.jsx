@@ -95,7 +95,10 @@ const QRCode = () => {
           </button>
         </div>
         <p className="footer">
-          Desinged By <a href="">Nithish Kumar</a>
+          Desinged By{" "}
+          <a href="https://github.com/Nkbalaji2002" target="_blank">
+            Nithish Kumar
+          </a>
         </p>
       </div>
     </>
