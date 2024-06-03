@@ -81,3 +81,7 @@ button {
   text-decoration: none;
   color: #3594fa;
 }
+
+.error-msg {
+  color: red;
+}

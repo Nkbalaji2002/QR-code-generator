@@ -6,15 +6,22 @@ const QRCode = () => {
   const [loading, setLoading] = useState(false);
   const [qrData, setqrData] = useState("https://google.com");
   const [qrSize, setqrSize] = useState(150);
+  const [error, setError] = useState("");
 
   const generateQR = async () => {
     setLoading(true);
 
     try {
-      const url = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${encodeURIComponent(
-        qrData
-      )}`;
-      setImg(url);
+      if (qrSize >= 100 && qrSize <= 300) {
+        const url = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${encodeURIComponent(
+          qrData
+        )}`;
+        setImg(url);
+        setError("");
+      } else {
+        setImg(null);
+        setError("Maximum size 300 and Minimum Size 100");
+      }
     } catch (error) {
       console.error("Error generating QR Code", error);
     } finally {
@@ -36,6 +43,11 @@ const QRCode = () => {
         document.body.removeChild(link);
       })
       .catch((error) => console.error("Error downloading QR code", error));
+  };
+
+  const handleSizeChange = (e) => {
+    setqrSize(e.target.value);
+    setError("");
   };
 
   return (
@@ -65,9 +77,11 @@ const QRCode = () => {
             type="text"
             id="sizeInput"
             value={qrSize}
-            onChange={(e) => setqrSize(e.target.value)}
-            placeholder="Enter Image Code"
+            onChange={(e) => handleSizeChange(e)}
+            placeholder="Enter Image Size"
           />
+
+          {error && <p className="error-msg">{error}</p>}
 
           <button
             className="generate-button"
